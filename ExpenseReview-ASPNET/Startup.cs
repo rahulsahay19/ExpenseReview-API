@@ -48,6 +48,7 @@ namespace ExpenseReview_ASPNET
                         .AllowCredentials());
             });
 
+      
             services.AddMvc();
             //Initiating Seed Data
             services.AddTransient<InitialData>();

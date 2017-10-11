@@ -11,12 +11,12 @@
 
   <ItemGroup>
     <Folder Include="Properties\PublishProfiles\" />
-    <Folder Include="wwwroot\" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="MailKit" Version="1.18.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Server.HttpSys" Version="2.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="2.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.0.0" />
@@ -25,6 +25,12 @@
 
   <ItemGroup>
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="1.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\uploads\3cd6b578-e78b-4832-9eb7-9d1b1236c23a.pdf" />
+    <None Include="wwwroot\uploads\4855f30a-8993-4655-894b-fd4dac4e3e7b.pdf" />
+    <None Include="wwwroot\uploads\a9aa4668-e882-4fe6-bc22-4393087ee74e.pdf" />
   </ItemGroup>
 
   <ItemGroup>
