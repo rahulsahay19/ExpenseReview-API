@@ -3,6 +3,7 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using ExpenseReview.Data.Contracts;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using ReimbursementApp.Helpers;
@@ -10,6 +11,7 @@ using ReimbursementApp.Model;
 
 namespace ReimbursementApp.Controllers.API
 {
+    [Authorize]
     [Route("api/[controller]")]
     [EnableCors("CorsPolicy")]
     public class ApproverController : Controller

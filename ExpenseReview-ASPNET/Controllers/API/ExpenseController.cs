@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Security.Principal;
 using System.Threading.Tasks;
 using ExpenseReview.Data.Contracts;
 using ExpenseReview.Models;
@@ -19,12 +20,15 @@ using ReimbursementApp.ViewModels;
 using MailKit.Net.Smtp;
 using MimeKit;
 using MailKit.Security;
+using Microsoft.Win32.SafeHandles;
 using ReimbursementApp.Helpers;
 
 namespace ReimbursementApp.Controllers.API
 {
+    [Authorize]
     [Route("api/[controller]")]
     [EnableCors("CorsPolicy")]
+
     public class ExpenseController : Controller
     {
         private IExpenseReviewUOW UOW;
@@ -44,7 +48,6 @@ namespace ReimbursementApp.Controllers.API
 
         // GET api/expense
         //TODO:- Search all is not working. Need to check
-        [Authorize(Policy = "Admin")]
         [HttpGet("")]
         public IQueryable Get()
         {
@@ -183,6 +186,7 @@ namespace ReimbursementApp.Controllers.API
         }
 
         // GET api/expense/GetByManager/Dhaval
+        
         [HttpGet("~/api/expense/MyExpenses/")]
         public IQueryable MyExpenses()
         {
@@ -210,12 +214,16 @@ namespace ReimbursementApp.Controllers.API
         // Post a new Expense
         // POST /api/expense
         //TODO: MailKit setup for sending mail notofication
+        // [EnableCors("CorsPolicy")]
+
+        /*[Authorize(Policy = "PostMethods")]*/
+      
         [HttpPost("")]
         public async Task<int> Post([FromBody]ExpenseViewModel expenseViewModel)
         {
-            //TODO:- Add Participants
             var approver = UOW.Approvers.GetAll().Where(app => app.ApproverId == expenseViewModel.ApproverId);
             var approverName = approver.FirstOrDefault().Name;
+            var check = User.Identity.IsAuthenticated;
             //This is to make sure that employee is submitting his/her expense only. Not on behalve
             var employee = UOW.Employees.GetAll().Where(emp => emp.UserName.Equals(User.Identity.Name));
             var emplName = employee.FirstOrDefault().EmployeeName;
@@ -262,23 +270,23 @@ namespace ReimbursementApp.Controllers.API
                     else
                     {*/
             var ExpenseObj = new Expense
-                {
-                    Amount = expenseViewModel.Amount,
-                    TotalAmount = expenseViewModel.TotalAmount,
-                    ExpenseDate = expenseViewModel.ExpenseDate,
-                    SubmitDate = expenseViewModel.SubmitDate,
-                    Status = new TicketStatus { State = TicketState.Submitted, Reason = "Expense submitted by -" + User.Identity.Name + " - " + DateTime.Now },
-                    Approvers = new Approver { ApproverId = expenseViewModel.ApproverId, Name = approverName },// approver.FirstOrDefault(),
-                    Employees = employee.FirstOrDefault(),
-                    ExpenseDetails = expenseViewModel.ExpenseDetails,
-                    ExpCategory = new ExpenseCategory { CategoryId = expenseViewModel.ExpCategory.CategoryId, Category = catName },
-                    Reason = new Reason { EmployeeId = empId, Reasoning = "Expense submitted by -" + User.Identity.Name + " - " + DateTime.Now }
+            {
+                Amount = expenseViewModel.Amount,
+                TotalAmount = expenseViewModel.TotalAmount,
+                ExpenseDate = expenseViewModel.ExpenseDate,
+                SubmitDate = expenseViewModel.SubmitDate,
+                Status = new TicketStatus { State = TicketState.Submitted, Reason = "Expense submitted by -" + User.Identity.Name + " - " + DateTime.Now },
+                Approvers = new Approver { ApproverId = expenseViewModel.ApproverId, Name = approverName },// approver.FirstOrDefault(),
+                Employees = employee.FirstOrDefault(),
+                ExpenseDetails = expenseViewModel.ExpenseDetails,
+                ExpCategory = new ExpenseCategory { CategoryId = expenseViewModel.ExpCategory.CategoryId, Category = catName },
+                Reason = new Reason { EmployeeId = empId, Reasoning = "Expense submitted by -" + User.Identity.Name + " - " + DateTime.Now }
 
-                };
+            };
 
-                UOW.Expenses.Add(ExpenseObj);
-                UOW.Commit();
-          //  }
+            UOW.Expenses.Add(ExpenseObj);
+            UOW.Commit();
+            //  }
             //TODO:- Fetch approvers mail id and based on flow send the mail
             var approverEmp = UOW.Employees.GetAll().Where(e => e.EmployeeId == expenseViewModel.ApproverId);
             var approverMail = approverEmp.FirstOrDefault().Email;

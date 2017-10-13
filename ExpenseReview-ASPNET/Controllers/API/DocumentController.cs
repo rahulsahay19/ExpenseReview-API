@@ -7,6 +7,7 @@ using System.Net.Http;
 using System.Net.Mime;
 using ExpenseReview.Data.Contracts;
 using ExpenseReview.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -16,6 +17,7 @@ using ReimbursementApp.Model;
 
 namespace ReimbursementApp.Controllers.API
 {
+    [Authorize]
     [Route("/api/expense/{Id}/files")]
     [EnableCors("CorsPolicy")]
     public class DocumentController :Controller
