@@ -13,6 +13,7 @@ namespace ExpenseReview_ASPNET
     /// </summary>
     public class Program
     {
+        
         #region snippet_Main
         public static void Main(string[] args)
         {
@@ -23,17 +24,17 @@ namespace ExpenseReview_ASPNET
 
         public static IWebHost BuildWebHost(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>()
                 #region snippet_Options
                 .UseHttpSys(options =>
                 {
+                    options.Authentication.AllowAnonymous = true;
                     options.Authentication.Schemes = AuthenticationSchemes.NTLM;
-                    options.Authentication.AllowAnonymous = false;
                     options.MaxConnections = 100;
                     options.MaxRequestBodySize = 30000000;
                     options.UrlPrefixes.Add("http://localhost:7000");
                 })
-                #endregion
+        #endregion
+                .UseStartup<Startup>()
                 .Build();
         #endregion
     }

@@ -18,6 +18,8 @@
     },
     "ExpenseReview_ASPNET": {
       "commandName": "Project",
+      "windowsAuthentication": true,
+      "anonymousAuthentication": true,
       "launchBrowser": true,
       "launchUrl": "api/values",
       "environmentVariables": {

@@ -7,9 +7,6 @@ namespace ReimbursementApp.DbContext
 {
     public class ExpenseReviewDbContext : Microsoft.EntityFrameworkCore.DbContext
     {
-        private bool _b;
-        private bool _c;
-
         public ExpenseReviewDbContext()
         {
             Database.EnsureCreated();
