@@ -1,23 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using ExpenseReview.Data.Contracts;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.AspNetCore.Mvc.Cors.Internal;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using ReimbursementApp.DatabaseHelpers;
 using ReimbursementApp.DbContext;
 using ReimbursementApp.EFRepository;
-using ReimbursementApp.Helpers;
 using ReimbursementApp.Model;
 using ReimbursementApp.SampleData;
 
@@ -35,12 +28,7 @@ namespace ExpenseReview_ASPNET
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            /*services.AddEntityFrameworkSqlServer()
-                .AddDbContext<ExpenseReviewDbContext>(options =>
-                    options.UseSqlServer(Configuration["Data:ExpenseReviewSPA:ConnectionString"],
-                        b => b.MigrationsAssembly("ReimbursementApp.Data")));*/
-
-            services.AddEntityFrameworkSqlServer()
+           services.AddEntityFrameworkSqlServer()
                 .AddDbContext<ExpenseReviewDbContext>(options =>
                     options.UseSqlServer(Configuration["Data:ExpenseReviewSPA:ConnectionString"]));
 
@@ -52,18 +40,9 @@ namespace ExpenseReview_ASPNET
                         .AllowAnyMethod()
                         .AllowAnyHeader()
                         .AllowCredentials());
-                /* .WithExposedHeaders("Access-Control-Allow-Origin")
-                 .SetPreflightMaxAge(TimeSpan.FromSeconds(2520))*/
-                //.Build());
             });
 
-       /*     services.AddMvc(options =>
-            {
-                var policy = new AuthorizationPolicyBuilder()
-                    .RequireAuthenticatedUser()
-                    .Build();
-                options.Filters.Add(new AuthorizeFilter(policy));
-            });*/
+
             services.AddMvc();
             services.Configure<MvcOptions>(options =>
             {
@@ -101,12 +80,15 @@ namespace ExpenseReview_ASPNET
             //Setting up Auth for Post Methods
             services.AddAuthorization(configure =>
             {
-              configure.AddPolicy("PostMethods", policy =>
-                {
+                configure.AddPolicy("PostMethods", policy =>
+                  {
                     //Access to Admin,Manager,Finance
                     policy.RequireAuthenticatedUser();
                   });
             });
+
+            //This is there to setup default scheme for HTTP.SYS hosting, otherwise user name will be always 
+            //also [Authorize] attribute won't work
             services.AddAuthentication(Microsoft.AspNetCore.Server.HttpSys.HttpSysDefaults.AuthenticationScheme);
         }
 
@@ -132,13 +114,7 @@ namespace ExpenseReview_ASPNET
             }
 
             app.UseCors("CorsPolicy");
-            // app.UseCorsMiddleware();
-            /*app.UseCors(builder =>
-                builder.AllowAnyOrigin().
-                AllowAnyMethod().
-                AllowAnyHeader().
-                AllowCredentials());*/
-
+          
             app.UseStaticFiles();
             app.UseMvc(routes =>
             {
