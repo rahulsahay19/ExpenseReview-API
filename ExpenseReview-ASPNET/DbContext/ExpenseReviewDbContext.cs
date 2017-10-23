@@ -9,7 +9,8 @@ namespace ReimbursementApp.DbContext
     {
         public ExpenseReviewDbContext()
         {
-            Database.EnsureCreated();
+            //For Production, keep this commented
+           // Database.EnsureCreated();
         }
         public virtual DbSet<Expense> Expenses { get; set; }
         public virtual DbSet<Employee> Employees { get; set; }
@@ -28,7 +29,9 @@ namespace ReimbursementApp.DbContext
             if (!optionsBuilder.IsConfigured)
             {
                 //While deploying to azure, make sure to change the connection string based on azure settings
-                optionsBuilder.UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=ExpenseReviewSPA;Trusted_Connection=True;MultipleActiveResultSets=true;");
+                //optionsBuilder.UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=ExpenseReviewSPA;Trusted_Connection=True;MultipleActiveResultSets=true;");
+                //For Production
+                optionsBuilder.UseSqlServer(@"Server=INBEN10181\SQLEXPRESS;Database=ExpenseReviewSPA;User Id=sa;Password=test@1234;MultipleActiveResultSets=true");
             }
         }
 

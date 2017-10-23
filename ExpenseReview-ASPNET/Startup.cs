@@ -1,5 +1,7 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using ExpenseReview.Data.Contracts;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -89,7 +91,13 @@ namespace ExpenseReview_ASPNET
 
             //This is there to setup default scheme for HTTP.SYS hosting, otherwise user name will be always 
             //also [Authorize] attribute won't work
-            services.AddAuthentication(Microsoft.AspNetCore.Server.HttpSys.HttpSysDefaults.AuthenticationScheme);
+            // services.AddAuthentication(Microsoft.AspNetCore.Server.HttpSys.HttpSysDefaults.AuthenticationScheme);
+            var authenticationScheme =  Microsoft.AspNetCore.Server.HttpSys.HttpSysDefaults.AuthenticationScheme;
+            services.AddAuthenticationCore(options =>
+            {
+                options.DefaultAuthenticateScheme = authenticationScheme;
+                options.DefaultChallengeScheme = authenticationScheme;
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -114,7 +122,8 @@ namespace ExpenseReview_ASPNET
             }
 
             app.UseCors("CorsPolicy");
-          
+            
+
             app.UseStaticFiles();
             app.UseMvc(routes =>
             {
