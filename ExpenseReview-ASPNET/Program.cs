@@ -2,7 +2,11 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Server.HttpSys;
 using System;
+using System.Diagnostics;
+using System.IO;
+using ExpenseReviewCustomHost;
 using ExpenseReview_ASPNET;
+using System.Linq;
 
 // The default listening address is http://localhost:5000 if none is specified.
 
@@ -13,10 +17,34 @@ namespace ExpenseReview_ASPNET
     /// </summary>
     public class Program
     {
-        
+        private static string pathToContentRoot;
         #region snippet_Main
         public static void Main(string[] args)
         {
+            bool isService = true;
+            if (Debugger.IsAttached || args.Contains("--console"))
+            {
+                isService = false;
+            }
+
+             pathToContentRoot = Directory.GetCurrentDirectory();
+            if (isService)
+            {
+                var pathToExe = Process.GetCurrentProcess().MainModule.FileName;
+                pathToContentRoot = Path.GetDirectoryName(pathToExe);
+            }
+
+            if (isService)
+            {
+                //host.RunAsCustomService();
+                BuildWebHost(args).RunAsCustomService();
+            }
+            else
+            {
+                //  host.Run();
+                BuildWebHost(args).Run();
+            }
+
             Console.WriteLine("Running demo with HTTP.sys.");
 
             BuildWebHost(args).Run();
@@ -34,6 +62,7 @@ namespace ExpenseReview_ASPNET
                     options.UrlPrefixes.Add("http://localhost:7000");
                 })
         #endregion
+                .UseContentRoot(pathToContentRoot)
                 .UseStartup<Startup>()
                 .Build();
         #endregion
