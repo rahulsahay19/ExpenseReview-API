@@ -20,7 +20,6 @@ namespace ReimbursementApp.Controllers.API
     [Authorize]
     [Route("api/[controller]")]
     [EnableCors("CorsPolicy")]
-
     public class ExpenseController : Controller
     {
         private IExpenseReviewUOW UOW;
@@ -40,28 +39,29 @@ namespace ReimbursementApp.Controllers.API
 
         // GET api/expense
         //TODO:- Search all is not working. Need to check
+        [Authorize(Policy = "Admin")]
         [HttpGet("")]
         public IQueryable Get()
         {
             var model = UOW.Expenses.GetAll().OrderByDescending(exp => exp.TotalAmount)
-                    .Select(exp => new ExpenseViewModel
-                    {
-                        EmployeeId = exp.Employees.EmployeeId,
-                        ApproverId = exp.Approvers.ApproverId,
-                        EmployeeName = exp.Employees.EmployeeName,
-                        ApproverName = exp.Approvers.Name,
-                        ExpenseDate = exp.ExpenseDate,
-                        SubmitDate = exp.SubmitDate,
-                        ApprovedDate = exp.Approvers.ApprovedDate,
-                        Amount = exp.Amount,
-                        TotalAmount = exp.TotalAmount,
-                        ExpenseDetails = exp.ExpenseDetails,
-                        ExpCategory = exp.ExpCategory,
-                        TicketStatus = exp.Status.State.ToString().GetMyEnum().ToString(),
-                        ExpenseId = exp.Id,
-                        reason = exp.Reason.Reasoning
+                .Select(exp => new ExpenseViewModel
+                {
+                    EmployeeId = exp.Employees.EmployeeId,
+                    ApproverId = exp.Approvers.ApproverId,
+                    EmployeeName = exp.Employees.EmployeeName,
+                    ApproverName = exp.Approvers.Name,
+                    ExpenseDate = exp.ExpenseDate,
+                    SubmitDate = exp.SubmitDate,
+                    ApprovedDate = exp.Approvers.ApprovedDate,
+                    Amount = exp.Amount,
+                    TotalAmount = exp.TotalAmount,
+                    ExpenseDetails = exp.ExpenseDetails,
+                    ExpCategory = exp.ExpCategory,
+                    TicketStatus = exp.Status.State.ToString().GetMyEnum().ToString(),
+                    ExpenseId = exp.Id,
+                    reason = exp.Reason.Reasoning
 
-                    });
+                });
             //  await EmailHelper.SendEmailAsync("rahul.sahay@kdi.kongsberg.com", "dummy subject", "some message");
             return model;
 
@@ -178,7 +178,6 @@ namespace ReimbursementApp.Controllers.API
         }
 
         // GET api/expense/GetByManager/Dhaval
-        
         [HttpGet("~/api/expense/MyExpenses/")]
         public IQueryable MyExpenses()
         {
@@ -206,16 +205,12 @@ namespace ReimbursementApp.Controllers.API
         // Post a new Expense
         // POST /api/expense
         //TODO: MailKit setup for sending mail notofication
-        // [EnableCors("CorsPolicy")]
-
-        /*[Authorize(Policy = "PostMethods")]*/
-      
         [HttpPost("")]
         public async Task<int> Post([FromBody]ExpenseViewModel expenseViewModel)
         {
+            //TODO:- Add Participants
             var approver = UOW.Approvers.GetAll().Where(app => app.ApproverId == expenseViewModel.ApproverId);
             var approverName = approver.FirstOrDefault().Name;
-            var check = User.Identity.IsAuthenticated;
             //This is to make sure that employee is submitting his/her expense only. Not on behalve
             var employee = UOW.Employees.GetAll().Where(emp => emp.UserName.Equals(User.Identity.Name));
             var emplName = employee.FirstOrDefault().EmployeeName;

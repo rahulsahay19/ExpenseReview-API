@@ -45,7 +45,8 @@ namespace ReimbursementApp.SampleData
                     EmergencyContactNumber = "3456789012",
                     EmergencyContactRelation = "Brother",
                     EmergencyContactDOB = "15/10/1985",
-                    ReportingManager = "Mrinal"
+                    ReportingManager = "",
+                    RoleName = ""
                 };
                 _dbContext.Employees.Add(approver1);
                 _dbContext.SaveChanges();
@@ -76,7 +77,8 @@ namespace ReimbursementApp.SampleData
                     EmergencyContactNumber = "3456789012",
                     EmergencyContactRelation = "Brother",
                     EmergencyContactDOB = "15/10/1985",
-                    ReportingManager = "Mrinal"
+                    ReportingManager = "",
+                    RoleName = ""
                 };
                 _dbContext.Employees.Add(approver2);
                 _dbContext.SaveChanges();
@@ -107,7 +109,8 @@ namespace ReimbursementApp.SampleData
                     EmergencyContactNumber = "3456789012",
                     EmergencyContactRelation = "Brother",
                     EmergencyContactDOB = "15/10/1985",
-                    ReportingManager = "Mrinal"
+                    ReportingManager = "",
+                    RoleName = ""
                 };
                 _dbContext.Employees.Add(approver3);
                 _dbContext.SaveChanges();
@@ -287,8 +290,8 @@ namespace ReimbursementApp.SampleData
                 _dbContext.Approvers.AddRange(expense2.Approvers);
                 _dbContext.SaveChanges();
 
-             }
-          
+            }
+
 
             //Seed Expense CategorySet
             if (!_dbContext.ExpenseCategorySets.Any())
@@ -296,8 +299,8 @@ namespace ReimbursementApp.SampleData
                 //Add New Set of Expense Category
                 var expenseCat = new ExpenseCategorySet
                 {
-                   CategoryId = 1,
-                   Category = "Visa"
+                    CategoryId = 1,
+                    Category = "Visa"
 
                 };
                 _dbContext.ExpenseCategorySets.Add(expenseCat);
@@ -328,8 +331,45 @@ namespace ReimbursementApp.SampleData
                 _dbContext.SaveChanges();
             }
 
+            if (!_dbContext.Roles.Any())
+            {
+                /*  var role1 = new Role
+                  {
+                      RoleName = "SuperAdmin"
+                  };
+                  _dbContext.Roles.Add(role1);
+                  _dbContext.SaveChanges();*/
+
+                var role2 = new Role
+                {
+                    RoleName = "Admin"
+                };
+                _dbContext.Roles.Add(role2);
+                _dbContext.SaveChanges();
+
+                var role3 = new Role
+                {
+                    RoleName = "Manager"
+                };
+                _dbContext.Roles.Add(role3);
+                _dbContext.SaveChanges();
+
+                var role4 = new Role
+                {
+                    RoleName = "Finance"
+                };
+                _dbContext.Roles.Add(role4);
+                _dbContext.SaveChanges();
+
+                var role5 = new Role
+                {
+                    RoleName = "User"
+                };
+                _dbContext.Roles.Add(role5);
+                _dbContext.SaveChanges();
+            }
             //Seed Approver Lists
-            if (!_dbContext.ApproverLists.Any())
+            /*if (!_dbContext.ApproverLists.Any())
             {
                 //Add New Set of Expense Category
                 var approverCat = new ApproverList
@@ -364,7 +404,7 @@ namespace ReimbursementApp.SampleData
                 };
                 _dbContext.ApproverLists.Add(approverCat4);
                 _dbContext.SaveChanges();
-            }
+            }*/
         }
     }
 }

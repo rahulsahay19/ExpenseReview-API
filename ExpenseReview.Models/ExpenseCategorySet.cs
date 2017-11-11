@@ -2,7 +2,7 @@
 
 namespace ExpenseReview.Models
 {
-   public class ExpenseCategorySet
+    public class ExpenseCategorySet
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }

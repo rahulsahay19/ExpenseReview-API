@@ -5,7 +5,7 @@ using ReimbursementApp.Model;
 
 namespace ExpenseReview.Models
 {
-   public class Expense
+    public class Expense
     {
         public int Id { get; set; }
         [Required]
@@ -27,10 +27,10 @@ namespace ExpenseReview.Models
         public virtual Employee Employees { get; set; }
 
         public virtual Approver Approvers { get; set; }
-        
+
         public virtual TicketStatus Status { get; set; }
 
-        public virtual ExpenseCategory ExpCategory  { get; set; }
+        public virtual ExpenseCategory ExpCategory { get; set; }
         public virtual ICollection<Documents> Docs { get; set; }
         public virtual Reason Reason { get; set; }
 
@@ -39,11 +39,11 @@ namespace ExpenseReview.Models
         {
             Docs = new Collection<Documents>();
             Participants = new Collection<Participant>();
-          //  Employees= new Employee();
-           // Approvers= new Approver();
-          //  Status = new TicketStatus();
+            //  Employees= new Employee();
+            // Approvers= new Approver();
+            //  Status = new TicketStatus();
             //Reason= new Reason();
         }
-        
+
     }
 }

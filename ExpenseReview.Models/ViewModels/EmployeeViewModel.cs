@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace ReimbursementApp.Model.ViewModels
+﻿namespace ExpenseReview.Models.ViewModels
 {
    public class EmployeeViewModel
     {

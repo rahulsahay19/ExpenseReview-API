@@ -20,7 +20,7 @@ namespace ReimbursementApp.ViewModels
         public string reason { get; set; }
         public string rejectedFlag { get; set; }
         public string DocName { get; set; }
-      //  public bool ParticipantFlag { get; set; }
-       // public ICollection<Participant> Participants { get; set; }
+        //  public bool ParticipantFlag { get; set; }
+        // public ICollection<Participant> Participants { get; set; }
     }
 }

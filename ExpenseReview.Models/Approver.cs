@@ -2,7 +2,7 @@
 
 namespace ExpenseReview.Models
 {
-   public class Approver
+    public class Approver
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }

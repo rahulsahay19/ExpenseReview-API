@@ -23,6 +23,7 @@ namespace ReimbursementApp.EFRepository
         public IRepository<ExpenseCategorySet> ExpenseCategorySets { get { return GetStandardRepo<ExpenseCategorySet>(); } }
         public IRepository<ApproverList> ApproverLists { get { return GetStandardRepo<ApproverList>(); } }
         public IRepository<Documents> DocumentLists { get { return GetStandardRepo<Documents>(); } }
+        public IRepository<Role> Roles { get { return GetStandardRepo<Role>(); } }
 
         public IRepository<Admin> Admins { get { return GetStandardRepo<Admin>(); } }
 

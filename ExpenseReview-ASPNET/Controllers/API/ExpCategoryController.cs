@@ -23,7 +23,7 @@ namespace ReimbursementApp.Controllers.API
         [HttpGet("")]
         public IQueryable Get()
         {
-            var model = UOW.ExpCategories.GetAll().OrderByDescending(exp=>exp.CategoryId);
+            var model = UOW.ExpCategories.GetAll().OrderByDescending(exp => exp.CategoryId);
             return model;
         }
     }

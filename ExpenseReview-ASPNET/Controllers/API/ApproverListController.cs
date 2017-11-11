@@ -11,7 +11,7 @@ namespace ReimbursementApp.Controllers.API
 {
     [Route("api/[controller]")]
     [EnableCors("CorsPolicy")]
-    public class ApproverListController :Controller
+    public class ApproverListController : Controller
     {
         private IExpenseReviewUOW UOW;
 

@@ -1,6 +1,6 @@
 ﻿namespace ExpenseReview.Models
 {
-   public class TicketStatus
+    public class TicketStatus
     {
         public int Id { get; set; }
         public virtual TicketState State { get; set; }

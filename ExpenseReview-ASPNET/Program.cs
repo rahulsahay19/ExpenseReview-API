@@ -8,7 +8,7 @@ using ExpenseReviewCustomHost;
 using ExpenseReview_ASPNET;
 using System.Linq;
 
-// The default listening address is http://localhost:5000 if none is specified.
+// The default listening address is http://localhost:7000 if none is specified.
 
 namespace ExpenseReview_ASPNET
 {
@@ -36,12 +36,10 @@ namespace ExpenseReview_ASPNET
 
             if (isService)
             {
-                //host.RunAsCustomService();
                 BuildWebHost(args).RunAsCustomService();
             }
             else
             {
-                //  host.Run();
                 BuildWebHost(args).Run();
             }
 
