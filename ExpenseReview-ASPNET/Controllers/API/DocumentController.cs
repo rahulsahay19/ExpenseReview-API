@@ -20,7 +20,7 @@ namespace ReimbursementApp.Controllers.API
     [Authorize]
     [Route("/api/expense/{Id}/files")]
     [EnableCors("CorsPolicy")]
-    public class DocumentController :Controller
+    public class DocumentController : Controller
     {
         private IHostingEnvironment _host;
         private IExpenseReviewUOW _uow;
@@ -62,7 +62,7 @@ namespace ReimbursementApp.Controllers.API
                 file.CopyTo(stream);
             }
 
-            var doc = new Documents {DocName = fileName};
+            var doc = new Documents { DocName = fileName };
             expense.Docs.Add(doc);
             _uow.Commit();
             return Ok(doc);
@@ -78,5 +78,6 @@ namespace ReimbursementApp.Controllers.API
     }
 
 
-   
+
+
 }

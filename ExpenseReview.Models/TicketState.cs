@@ -2,7 +2,7 @@
 
 namespace ExpenseReview.Models
 {
-   [Flags()]
+    [Flags()]
     public enum TicketState
     {
 
@@ -20,8 +20,8 @@ namespace ExpenseReview.Models
         Rejected = 5,
 
         Closed = 6
-        
-       //Expense categories. Let it open, so that admin can add new category.
+
+        //Expense categories. Let it open, so that admin can add new category.
         //Categories won't have enum types as this will be generic 
     }
 }

@@ -2,7 +2,7 @@
 
 namespace ExpenseReview.Models
 {
-   public class Documents
+    public class Documents
     {
         public int Id { get; set; }
 

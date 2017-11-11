@@ -24,6 +24,7 @@ namespace ReimbursementApp.DbContext
         public virtual DbSet<ApproverList> ApproverLists { get; set; }
         public virtual DbSet<Documents> Documentses { get; set; }
         public virtual DbSet<Participant> Participants { get; set; }
+        public virtual DbSet<Role> Roles { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
@@ -43,12 +44,14 @@ namespace ReimbursementApp.DbContext
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Employee>().HasKey(a => new {a.EmployeeId, a.Id});
+            modelBuilder.Entity<Employee>().HasKey(a => new { a.EmployeeId, a.Id });
             modelBuilder.Entity<Employee>().HasIndex(e => e.EmployeeId).IsUnique();
+            modelBuilder.Entity<ApproverList>().HasKey(a => new { a.ApproverId, a.Id });
+            modelBuilder.Entity<ApproverList>().HasIndex(a => a.ApproverId).IsUnique();
             //This means Multiple document can be uploaded against single expense id
             modelBuilder.Entity<Documents>().HasIndex(documents => documents.ExpenseId).IsUnique(false);
-            modelBuilder.Entity<Approver>().HasKey(a => new {a.ApproverId,a.Id});
-            modelBuilder.Entity<ExpenseCategory>().HasKey(e => new {e.CategoryId, e.Id});
+            modelBuilder.Entity<Approver>().HasKey(a => new { a.ApproverId, a.Id });
+            modelBuilder.Entity<ExpenseCategory>().HasKey(e => new { e.CategoryId, e.Id });
             modelBuilder.Entity<ExpenseCategorySet>().HasKey(e => new { e.CategoryId, e.Id });
             modelBuilder.Entity<Participant>().HasKey(a => new { a.EmployeeId, a.Id });
             base.OnModelCreating(modelBuilder);

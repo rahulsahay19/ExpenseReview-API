@@ -5,7 +5,7 @@ namespace ExpenseReview.Models
     /// <summary>
     /// Visa, CAB, Party, OnSite-Kit, etc..
     /// </summary>
-   public class ExpenseCategory
+    public class ExpenseCategory
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }

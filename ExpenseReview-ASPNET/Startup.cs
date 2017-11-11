@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using ExpenseReview.Data.Contracts;
+using ExpenseReview.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -120,6 +121,7 @@ namespace ExpenseReview_ASPNET
                     });
                 });
             }
+            
 
             app.UseCors("CorsPolicy");
             

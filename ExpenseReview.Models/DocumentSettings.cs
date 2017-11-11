@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.IO;
 using System.Linq;
-using System.Text;
 
-namespace ReimbursementApp.Model
+namespace ExpenseReview.Models
 {
-   public class DocumentSettings
+    public class DocumentSettings
     {
         public int MaxBytes { get; set; }
         public string[] AcceptedFileTypes { get; set; }
