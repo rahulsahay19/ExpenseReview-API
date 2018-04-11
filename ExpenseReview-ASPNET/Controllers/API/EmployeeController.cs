@@ -1,17 +1,14 @@
 ﻿using System.Linq;
 using System.Net;
 using System.Net.Http;
-using ExpenseReview.Data.Contracts;
-using ExpenseReview.Models;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
+using ReimbursementApp.Data.Contracts;
 using ReimbursementApp.Model;
 using ReimbursementApp.ViewModels;
 
 namespace ReimbursementApp.Controllers.API
 {
-    [Authorize]
     [Route("api/[controller]")]
     [EnableCors("CorsPolicy")]
     public class EmployeeController : Controller
@@ -31,7 +28,7 @@ namespace ReimbursementApp.Controllers.API
                 {
                     EmployeeId = emp.EmployeeId,
                     EmployeeName = emp.EmployeeName
-                });
+                }).OrderBy(d => d.EmployeeName); ;
 
             return model;
         }
@@ -39,21 +36,14 @@ namespace ReimbursementApp.Controllers.API
         [HttpGet("")]
         public IQueryable Get()
         {
-            var model = UOW.Employees.GetAll().OrderByDescending(emp => emp.Id);
+            var model = UOW.Employees.GetAll().OrderByDescending(emp => emp.Id).OrderBy(d => d.EmployeeName);
             return model;
         }
+
         [HttpGet("{id}")]
         public IQueryable<Employee> Get(int id)
         {
-            IQueryable<Employee> model = UOW.Employees.GetAll().Where(e => e.EmployeeId == id);
-            return model;
-        }
-
-
-        [HttpGet("~/api/employee/GetByName/{EmployeeName}")]
-        public IQueryable<Employee> GetByName(string EmployeeName)
-        {
-            IQueryable<Employee> model = UOW.Employees.GetAll().Where(e => e.EmployeeName.StartsWith(EmployeeName));
+            IQueryable<Employee> model = UOW.Employees.GetAll().Where(e => e.EmployeeId == id).OrderBy(d => d.EmployeeName);
             return model;
         }
 
@@ -80,25 +70,21 @@ namespace ReimbursementApp.Controllers.API
             return flag;
         }
 
-
-        [HttpGet("~/api/employee/GetByDesignation/{Desig}")]
-        public IQueryable<Employee> GetByDesignation(string Desig)
+        [HttpGet("~/api/employee/search/{Key}")]
+        public IQueryable<Employee> GetEmployee(string Key)
         {
-            IQueryable<Employee> model = UOW.Employees.GetAll().Where(e => e.Designation.StartsWith(Desig));
+            IQueryable<Employee> model = UOW.Employees.GetAll().Where(e =>
+            e.EmployeeName.Contains(Key) ||
+            e.Designation.Contains(Key) ||
+            e.EmployeeId.ToString().StartsWith(Key)
+            ).OrderBy(d => d.EmployeeName);
             return model;
         }
-
-        [HttpGet("~/api/employee/GetByManager/{Manager}")]
-        public IQueryable<Employee> GetByManager(string Manager)
-        {
-            IQueryable<Employee> model = UOW.Employees.GetAll().Where(e => e.ReportingManager.StartsWith(Manager));
-            return model;
-        }
-
+       
         [HttpGet("~/api/employee/GetPendingApprovals/")]
         public IQueryable<Employee> GetPendingApprovals()
         {
-            IQueryable<Employee> model = UOW.Employees.GetAll().Where(e => e.SignedUp == false);
+            IQueryable<Employee> model = UOW.Employees.GetAll().Where(e => e.SignedUp == false).OrderBy(d => d.EmployeeName);
             return model;
         }
         // Post a new Employee
